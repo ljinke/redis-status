@@ -28,6 +28,7 @@ function RedisStatus(config) {
   this._host = config.host;
   this._password = config.password;
   this._memoryThreshold = config.memoryThreshold;
+  this._ssl = config.ssl;
 }
 
 /**
@@ -42,9 +43,15 @@ function RedisStatus(config) {
  *    server is healthy, or a string describing the reason that the server is unhealthy.
  */
 RedisStatus.prototype.checkStatus = function(callback) {
-  var redisClient = redis.createClient(this._port, this._host, {
-    auth_pass: this._password
-  }).on('error', function() {
+  var options = {
+    auth_pass: this._password, 
+  };
+  
+  if(this._ssl) {
+    options.tls = { servername: this._ssl };
+  }
+
+  var redisClient = redis.createClient(this._port, this._host, options).on('error', function() {
     // If Redis is not responsive, `node_redis` will emit an error on the next turn of the event
     // loop. If we don't provide an error handler, that error will bring down the process. Providing
     // an error handler will cause `node_redis` to begin attempting to reconnect--but the ping below
