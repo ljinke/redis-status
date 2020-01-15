@@ -1,6 +1,6 @@
 {
   "name": "redis-status",
-  "version": "1.0.3",
+  "version": "1.1.3",
   "description": "A node module that checks the health of a Redis server.",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/mixmaxhq/redis-status",
   "dependencies": {
-    "redis": "^0.12.1"
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "eslint": ">=3",
